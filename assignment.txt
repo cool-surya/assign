@@ -1,0 +1,44 @@
+#python script 
+#1>Telnet to the server
+import getpass
+import telnetlib
+
+HOST = "http://localhost:8000/"
+user = raw_input("Enter your remote account: ")
+password = getpass.getpass()
+
+tn = telnetlib.Telnet(HOST)
+
+tn.read_until("login: ")
+tn.write(user + "\n")
+if password:
+    tn.read_until("Password: ")
+    tn.write(password + "\n")
+
+tn.write("ls\n")
+tn.write("exit\n")
+
+print tn.read_all()
+
+#python script 
+#2>ssh to the server
+from fabric import Connection
+result = Connection('xyz.com').run('uname -s')
+msg = "Ran {.command!r} on {.connection.host}, got stdout:\n{.stdout}"
+print(msg.format(result))
+
+#disk usage
+df -h ---> Show free and used space on mounted file system
+df -i ---> Show free and used inodes on mounted filesystem
+fdisk -l ---> Display disks partitions sizes and types
+du -ah ---> Display disk usage for all files and directories in human readable format
+du -sh -----> Display total disk usage off the current directory
+
+#get the list of files from the path
+ls -al ---> List all files in a long listing format
+
+#copy the files to the remote server
+type sftp/ftp/scp username@domainname
+password
+connected to domain
+sftp/ftp/scp> scp file.txt server:/tmp # secure copy file.txt to the /tmp folder on the server
